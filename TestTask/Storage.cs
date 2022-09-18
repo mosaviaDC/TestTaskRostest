@@ -58,7 +58,7 @@ namespace takenProductsTask
             {
                 foreach (var truck in StorageTrucks)
                 {
-                    new Task(() => { truck.PickUpProducts(this);}).Start();
+                    new Thread(() => { truck.PickUpProducts(this);}).Start();
                 }
             }
            
@@ -67,11 +67,11 @@ namespace takenProductsTask
         public void Work()
         {
                      foreach (var factories in StorageFactories)
-                        new Task(() =>
+                        new Thread(() =>
                         {
                             while (!cancellationToken.IsCancellationRequested)
                                 factories.Produce(this);
-                        },cancellationToken)
+                        })
                         .Start();
         }
     }
